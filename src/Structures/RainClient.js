@@ -20,6 +20,7 @@ class RainClient extends client {
         });
 
         this.events = new Map();
+        this.commands = new Map();
 
         this.config = opt;
         this.utils = new Utils(this);
