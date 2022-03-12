@@ -1,0 +1,34 @@
+{
+  "name": "discord-bot",
+  "version": "0.0.1",
+  "description": "Just A Simple Discord Bot",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crpxy/Bot.git"
+  },
+  "author": "CrpxyLab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Crpxy/Bot/issues"
+  },
+  "homepage": "https://github.com/Crpxy/Bot#readme",
+  "devDependencies": {
+    "@hapi/eslint-plugin-hapi": "^4.3.6",
+    "eslint": "^8.11.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "@botsocket/bone": "^1.0.0",
+    "@botsocket/bornite": "^1.1.0",
+    "@botsocket/jade": "^1.0.2",
+    "@botsocket/quartz": "^1.0.2",
+    "glob": "^7.2.0",
+    "path": "^0.12.7",
+    "util": "^0.12.4"
+  }
+}
