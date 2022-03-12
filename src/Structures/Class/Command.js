@@ -5,14 +5,15 @@
 
 // Main \\
 class Command {
-    constructor(client, name, opt={}) {
+    constructor(client, name, opt = {}) {
         this.client = client;
         this.name = name;
-        this.description = opt.description || null
-        this.cooldown = opt.cooldown || null
-        this.perm = opt.perm || []
-        this.roles = opt.roles || []
-        this.owner = opt.owner || false
+        this.description = opt.description || null;
+        this.cooldown = opt.cooldown || null;
+        this.perm = opt.perm || [];
+        this.roles = opt.roles || [];
+        this.owner = opt.owner || false;
+        this.options = opt.options || [];
     }
 
     async run(...args) {
