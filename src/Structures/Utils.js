@@ -30,12 +30,17 @@ class Utils {
         };
     }
 
-    isClass(c) {
-        return typeof (c) === 'function' && typeof (c.prototype) === 'object' && c.toString().substring(0, 5) === 'class';
-    }
-
     isOwners(id) {
         return this.client.config.bot.owners.includes(id);
+    }
+
+    formatBytes(bytes) {
+        if (bytes === 0) {
+            return '0 Bytes';
+        }
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return `${parseFloat((bytes / 1024 ** i).toFixed(2))} ${sizes[i]}`;
     }
 
     registerCommand() {
@@ -99,8 +104,9 @@ class Utils {
             command.options = discordOptions;
         }
 
+        const url = `/applications/${this.client.config.bot.app}/guilds/${this.client.config.bot.guild}/commands`;
         const promises = commands.map((cmd) => {
-            return Api.post(`/applications/${this.client.config.bot.app}/guilds/${this.client.config.bot.guild}/commands`, {
+            return Api.post(url, {
                 payload: cmd,
             });
         });
