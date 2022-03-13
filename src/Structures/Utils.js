@@ -20,7 +20,7 @@ const Api = require('./Api.js');
 class Utils {
     constructor(client) {
         this.client = client;
-        this.internals = {
+        this.client.cmdInternals = {
             commands: {},
             types: {
                 string: 3,
@@ -46,7 +46,7 @@ class Utils {
                 def.options = Jade.object(def.options);
             }
 
-            this.internals.commands[def.name] = def;
+            this.client.cmdInternals.commands[def.name] = def;
         }
 
         const commands = [];
@@ -67,7 +67,7 @@ class Utils {
 
             for (const key of Object.keys(options)) {
                 const item = options[key];
-                const type = this.internals.types[item.type];
+                const type = this.client.cmdInternals.types[item.type];
 
                 Bone.assert(type, `Unsupported type ${item.type} for option ${key}`);
 
@@ -101,7 +101,7 @@ class Utils {
 
         const promises = commands.map((cmd) => {
             return Api.post(`/applications/${this.client.config.bot.app}/guilds/${this.client.config.bot.guild}/commands`, {
-                payload: cmd['1'],
+                payload: cmd,
             });
         });
 
@@ -122,7 +122,11 @@ class Utils {
                 const { name } = Path.parse(file);
                 const event = require(file);
 
-                this.client.events.set(name.toUpperCase(), event);
+                if (!event.name) {
+                    event.name = name.toUpperCase();
+                }
+
+                this.client.events.set(event.name.toUpperCase(), event);
             }
         });
     }
@@ -134,8 +138,11 @@ class Utils {
                 const { name } = Path.parse(file);
                 const cmd = require(file);
 
-                cmd.name = name.toLowerCase();
-                this.client.commands.set(name, cmd);
+                if (!cmd.name) {
+                    cmd.name = name.toLowerCase();
+                }
+
+                this.client.commands.push(cmd);
             }
         });
     }

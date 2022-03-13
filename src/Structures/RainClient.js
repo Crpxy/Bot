@@ -20,12 +20,13 @@ class RainClient extends client {
         });
 
         this.events = new Map();
-        this.commands = new Map();
+        this.commands = [];
+
+        this.user = null;
+        this.cmdInternals = null;
 
         this.config = opt;
         this.utils = new Utils(this);
-
-        this.user = null;
 
         this.onDispatch = function (event, data) {
             this.utils.handleEvents(event, data);

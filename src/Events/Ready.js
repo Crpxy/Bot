@@ -20,7 +20,7 @@ module.exports = {
         console.log([
             `Logged in as ${data.user.username}#${data.user.discriminator}`,
             `Loaded ${client.events.size} events!`,
-            `Loaded ${client.commands.size} commands!`,
+            `Loaded ${client.commands.length} commands!`,
         ].join('\n'));
     },
 };

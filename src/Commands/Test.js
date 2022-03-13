@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @hapi/hapi/scope-start */
 'use strict';
 
 // Main \\
 module.exports = {
-	description: 'test',
-    run: async () => {
-	    console.log("Hi");
+    description: 'test',
+    run: (_, __, toolkit) => {
+        return toolkit.info({
+            title: 'Test',
+            description: 'test ok!',
+        });
     },
 };
