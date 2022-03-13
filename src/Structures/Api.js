@@ -10,6 +10,6 @@ module.exports = Bornite.custom({
     validateStatus: true,
     headers: {
         Authorization: `Bot ${Config.bot.token}`,
-        'User-Agent': `DiscordBot, (https://botsocket.com, ${Package.version}`,
+        'User-Agent': `DiscordBot (https://botsocket.com, ${Package.version})`,
     },
 });

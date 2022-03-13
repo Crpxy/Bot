@@ -31,9 +31,10 @@ class RainClient extends client {
             this.utils.handleEvents(event, data);
         };
 
-        this.login = function () {
-            this.utils.loadEvents();
-
+        this.login = async function () {
+            await this.utils.loadEvents();
+            await this.utils.loadCommands();
+            await this.utils.registerCommand();
             this.connect();
         };
     }

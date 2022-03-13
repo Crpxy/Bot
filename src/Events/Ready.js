@@ -1,15 +1,10 @@
 /* eslint-disable @hapi/hapi/scope-start */
 'use strict';
 
-// Imports \\
-const Path = require('path');
-
-const Event = require(Path.join(__dirname, '..', 'Structures', 'Class', 'Event.js'));
-
-// Class \\
-class Ready extends Event {
-    async run(data) {
-        await this.client.send({
+// Main \\
+module.exports = {
+    run: async (client, data) => {
+        await client.send({
             op: 3,
             d: {
                 activities: [{
@@ -24,11 +19,8 @@ class Ready extends Event {
 
         console.log([
             `Logged in as ${data.user.username}#${data.user.discriminator}`,
-            `Loaded ${this.client.events.size} events!`,
-            `Loaded ${this.client.commands.size} commands!`,
+            `Loaded ${client.events.size} events!`,
+            `Loaded ${client.commands.size} commands!`,
         ].join('\n'));
-    }
-}
-
-// Exports \\
-module.exports = Ready;
+    },
+};

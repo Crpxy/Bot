@@ -16,9 +16,6 @@ const Bone = require('@botsocket/bone');
 
 const Api = require('./Api.js');
 
-const EventClass = require(Path.join(__dirname, 'Class', 'Event.js'));
-const CmdClass = require(Path.join(__dirname, 'Class', 'Command.js'));
-
 // Class \\
 class Utils {
     constructor(client) {
@@ -55,8 +52,9 @@ class Utils {
         const commands = [];
         for (const def of definitions) {
             const command = { ...def };
+            commands.push(command);
 
-            delete command.handler;
+            delete command.run;
 
             if (!command.options) {
                 continue;
@@ -103,17 +101,17 @@ class Utils {
 
         const promises = commands.map((cmd) => {
             return Api.post(`/applications/${this.client.config.bot.app}/guilds/${this.client.config.bot.guild}/commands`, {
-                payload: cmd,
+                payload: cmd['1'],
             });
         });
 
-        return promises.all(promises);
+        return Promise.all(promises);
     }
 
     handleEvents(event, data) {
         const Event = this.client.events.get(event);
         if (Event) {
-            Event.run(data);
+            Event.run(this.client, data);
         }
     }
 
@@ -122,18 +120,9 @@ class Utils {
             for (const file of events) {
                 delete require.cache[file];
                 const { name } = Path.parse(file);
-                const eventFile = require(file);
+                const event = require(file);
 
-                if (!this.isClass(eventFile)) {
-                    throw new TypeError(`[RainHub] > Event ${name} is not a class`);
-                }
-
-                const event = new eventFile(this.client, name);
-                if (!event instanceof (EventClass)) {
-                    throw new TypeError(`[RainHub] > Event ${name}  doesnt belong in Event Class.`);
-                }
-
-                this.client.events.set(event.name.toUpperCase(), event);
+                this.client.events.set(name.toUpperCase(), event);
             }
         });
     }
@@ -143,19 +132,10 @@ class Utils {
             for (const file of cmds) {
                 delete require.cache[file];
                 const { name } = Path.parse(file);
-                const cmdFile = require(file);
+                const cmd = require(file);
 
-                if (!this.isClass(cmdFile)) {
-                    throw new TypeError(`[RainHub] > Command ${name} is not a class`);
-                }
-
-                const cmd = new cmdFile(this.client, name.toLowerCase());
-
-                if (!cmd instanceof (CmdClass)) {
-                    throw new TypeError(`[RainHub] > Command ${name}  doesnt belong in Command Class.`);
-                }
-
-                this.client.commands.set(cmd.name, cmd);
+                cmd.name = name.toLowerCase();
+                this.client.commands.set(name, cmd);
             }
         });
     }
